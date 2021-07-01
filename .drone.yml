@@ -1,22 +1,17 @@
-kind: pipeline
-name: testing
-
-steps:
-- name: first
-  image: php
-  commands:
-  - echo “Output from first step”;
-
-- name: second
-  image: php
-  commands:
-  - echo “Output from second step”;
-
-- name: third
-  image: php
-  commands:
-  - echo “Output from third step”;
-
-  depends_on:
-  - first
-  - second
+local stepName = std.extVar("input.stepName");
+local image = std.extVar("input.image");
+local commands = std.extVar("input.commands");
+{
+  "kind": "pipeline",
+  "type": "docker",
+  "name": "default",
+  "steps": [
+    {
+      "name": stepName,
+      "image": image,
+      "commands": [
+        commands
+      ]
+    }
+  ]
+}
